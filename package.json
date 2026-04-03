@@ -1,5 +1,5 @@
 {
-  "name": "react-native-zip-archive",
+  "name": "rn-zip-archive-v2",
   "version": "7.0.2",
   "description": "A little wrapper on ZipArchive for react-native",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mockingbot/react-native-zip-archive.git"
+    "url": "git@github.com:duysolo/rn-zip-archive-v2.git"
   },
   "keywords": [
     "react-native",
@@ -20,8 +20,8 @@
     "zip-archive",
     "unzip"
   ],
-  "author": "Perry Poon <plrthink@gmail.com> (https://github.com/plrthink)",
-  "homepage": "https://github.com/mockingbot/react-native-zip-archive",
+  "author": "Justin Phan <duypt.dev@gmail.com> (https://github.com/duysolo)",
+  "homepage": "https://github.com/duysolo/rn-zip-archive-v2",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "*",

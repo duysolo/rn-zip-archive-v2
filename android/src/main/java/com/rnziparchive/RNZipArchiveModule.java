@@ -64,7 +64,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
       net.lingala.zip4j.ZipFile zipFile = new net.lingala.zip4j.ZipFile(zipFilePath);
       promise.resolve(zipFile.isEncrypted());
     } catch (ZipException ex) {
-      promise.reject(null, String.format("Unable to check for encryption due to: %s", getStackTrace(ex)));
+      promise.reject("ERR_CHECK_ENCRYPTION", String.format("Unable to check for encryption due to: %s", getStackTrace(ex)));
     }
   }
 
@@ -79,7 +79,8 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
           if (zipFile.isEncrypted()) {
             zipFile.setPassword(password.toCharArray());
           } else {
-            promise.reject(null, String.format("Zip file: %s is not password protected", zipFilePath));
+            promise.reject("ERR_NOT_ENCRYPTED", String.format("Zip file: %s is not password protected", zipFilePath));
+            return;
           }
 
           List fileHeaderList = zipFile.getFileHeaders();
@@ -107,7 +108,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
           promise.resolve(Arguments.fromList(extractedFileNames));
         } catch (Exception ex) {
           updateProgress(0, 1, zipFilePath); // force 0%
-          promise.reject(null, String.format("Failed to unzip file, due to: %s", getStackTrace(ex)));
+          promise.reject("ERR_UNZIP_WITH_PASSWORD", String.format("Failed to unzip file, due to: %s", getStackTrace(ex)));
         }
       }
     }).start();
@@ -122,7 +123,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
         try {
           new File(zipFilePath);
         } catch (NullPointerException e) {
-          promise.reject(null, "Couldn't open file " + zipFilePath + ". ");
+          promise.reject("ERR_FILE_NOT_FOUND", "Couldn't open file " + zipFilePath + ". ");
           return;
         }
 
@@ -174,7 +175,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
           }
         } catch (Exception ex) {
           updateProgress(0, 1, zipFilePath); // force 0%
-          promise.reject(null, "Failed to extract file " + ex.getLocalizedMessage());
+          promise.reject("ERR_UNZIP", "Failed to extract file " + ex.getLocalizedMessage());
         }
       }
     }).start();
@@ -212,7 +213,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
             compressedSize = fileDescriptor.getLength();
           }
         } catch (IOException e) {
-          promise.reject(null, String.format("Asset file `%s` could not be opened", assetsPath));
+          promise.reject("ERR_ASSET_NOT_FOUND", String.format("Asset file `%s` could not be opened", assetsPath));
           return;
         }
 
@@ -274,7 +275,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
             throw new Exception(String.format("Couldn't extract %s", assetsPath));
           }
         } catch (Exception ex) {
-          promise.reject(null, ex.getMessage());
+          promise.reject("ERR_UNZIP_ASSETS", ex.getMessage());
           return;
         }
         promise.resolve(destDirectory);
@@ -338,13 +339,14 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
           Log.d(TAG, "Encryption type not supported default to Standard Encryption");
         }
       } else {
-        promise.reject(null, "Password is empty");
+        promise.reject("ERR_EMPTY_PASSWORD", "Password is empty");
+        return;
       }
 
       processZip(filesOrDirectory, destFile, parameters, promise, password.toCharArray());
 
     } catch (Exception ex) {
-      promise.reject(null, ex.getMessage());
+      promise.reject("ERR_ZIP_WITH_PASSWORD", ex.getMessage());
       return;
     }
 
@@ -360,7 +362,7 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
       processZip(filesOrDirectory, destFile, parameters, promise, null);
 
     } catch (Exception ex) {
-      promise.reject(null, ex.getMessage());
+      promise.reject("ERR_ZIP", ex.getMessage());
       return;
     }
   }
@@ -410,14 +412,15 @@ public class RNZipArchiveModule extends ReactContextBaseJavaModule {
               }
             }
             else {
-              promise.reject(null, "File or folder does not exist");
+              promise.reject("ERR_FILE_NOT_FOUND", "File or folder does not exist");
+              return;
             }
 
             updateProgress(1, 1, destFile); // force 100%
           }
           promise.resolve(destFile);
         } catch (Exception ex) {
-          promise.reject(null, ex.getMessage());
+          promise.reject("ERR_ZIP_PROCESS", ex.getMessage());
           return;
         }
       }
