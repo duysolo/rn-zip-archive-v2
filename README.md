@@ -1,28 +1,28 @@
-# React Native Zip Archive [![npm](https://img.shields.io/npm/v/react-native-zip-archive.svg)](https://www.npmjs.com/package/react-native-zip-archive)
+# rn-zip-archive-v2 [![npm](https://img.shields.io/npm/v/rn-zip-archive-v2.svg)](https://www.npmjs.com/package/rn-zip-archive-v2)
 
-Zip archive utility for react-native
+Zip archive utility for React Native — a maintained fork of [`react-native-zip-archive`](https://github.com/mockingbot/react-native-zip-archive).
 
-## Attention
+## Why this fork?
 
-In order to comply with the new privacy policy of the App Store on iOS, you need to upgrade react-native-zip-archive to version 7.0.0, which requires the deployment target to be iOS 15.5 or later.
+The original `react-native-zip-archive` is no longer actively maintained. This fork includes critical bug fixes:
+
+- **Fix null error codes** — replaced all `promise.reject(null, ...)` with proper error codes (`ERR_UNZIP`, `ERR_FILE_NOT_FOUND`, etc.)
+- **Fix double-settlement crashes** — added missing `return` statements after `reject` in `unzipWithPassword`, `zipWithPassword`, `processZip` to prevent double promise settlement on Android
 
 ## For Expo Users
 
-The only way to make this work with Expo is to create a [dev build](https://docs.expo.dev/workflow/overview/#development-builds), the expo go is not supported.
+The only way to make this work with Expo is to create a [dev build](https://docs.expo.dev/workflow/overview/#development-builds), Expo Go is not supported.
 
 ## Compatibility
 
-| react-native version | react-native-zip-archive version |
-| --- | --- |
-| ^0.60 | ^5.0.0 |
-| ^0.58 | ^4.0.0 |
-| <0.58 | ^3.0.0 |
-
+| React Native | rn-zip-archive-v2 | iOS deployment target |
+| --- | --- | --- |
+| >= 0.60 | ^7.0.0 | >= 15.5 |
 
 ## Installation
 
 ```bash
-npm install react-native-zip-archive --save
+npm install rn-zip-archive-v2 --save
 ```
 
 
@@ -42,7 +42,7 @@ For Android, it's ready to go.
 import it into your code
 
 ```js
-import { zip, unzip, unzipAssets, subscribe } from 'react-native-zip-archive'
+import { zip, unzip, unzipAssets, subscribe } from 'rn-zip-archive-v2'
 ```
 
 you may also want to use something like [react-native-fs](https://github.com/johanneslumpe/react-native-fs) to access the file system (check its repo for more information)
@@ -191,15 +191,15 @@ componentWillUnmount() {
 }
 ```
 
-## Example App
-You can use this repo, https://github.com/plrthink/RNZATestApp, for testing and contribution. For more information please refer to its README.
-
-
 ## Related Projects
 
-- [ZipArchive](https://github.com/ZipArchive/ZipArchive)
-- [zip4j](https://github.com/srikanth-lingala/zip4j)
+- [ZipArchive](https://github.com/ZipArchive/ZipArchive) (iOS native library)
+- [zip4j](https://github.com/srikanth-lingala/zip4j) (Android native library)
 
----
+## Credits
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/plrthink)
+Forked from [react-native-zip-archive](https://github.com/mockingbot/react-native-zip-archive) by [MockingBot](https://github.com/mockingbot).
+
+## License
+
+MIT

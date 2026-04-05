@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
   s.summary        = package['description']
   s.author         = package['author']
   s.license        = package['license']
-  s.homepage       = 'https://github.com/mockingbot/react-native-zip-archive'
-  s.source         = { :git => 'https://github.com/mockingbot/react-native-zip-archive.git', :tag => "#{s.version}"}
+  s.homepage       = 'https://github.com/duysolo/rn-zip-archive-v2'
+  s.source         = { :git => 'https://github.com/duysolo/rn-zip-archive-v2.git', :tag => "#{s.version}"}
   s.platform       = :ios, '15.5'
   s.preserve_paths = '*.js'
 
